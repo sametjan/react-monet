@@ -5,11 +5,12 @@ const fetchUsers = () => {
   return Either.fromPromise(fetch('https://jsonplaceholder.typicode.com/users'));
 }
 
-const UserDetail = ({ user }) => {
+const UserDetail = ({ user, setSelectedUser }) => {
   const safelyGetProp = (prop) => Maybe.fromNull(user[prop]).orSome('No data available');
 
   return (
-    <div style={{ margin: "10px", padding: "10px", border: "1px solid gray", borderRadius: "5px" }}>
+    <div style={{ margin: "10px", padding: "10px", border: "1px solid gray", borderRadius: "5px", position: 'absolute', left: '50%', top: '50%', transform: 'translateY(-50%)' }}>
+      <button style={{float: 'right'}} onClick={() => setSelectedUser(null)}>&times;</button>
       <h2>User Details</h2>
       <p><strong>Name:</strong> {safelyGetProp('name')}</p>
       <p><strong>Email:</strong> {safelyGetProp('email')}</p>
@@ -51,7 +52,7 @@ const App = () => {
             </li>
           ))}
         </ul>
-        {selectedUser && <UserDetail user={selectedUser} />}
+        {selectedUser && <UserDetail user={selectedUser} setSelectedUser={setSelectedUser} />}
       </header>
     </div>
   );
